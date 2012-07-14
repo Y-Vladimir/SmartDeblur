@@ -1,0 +1,877 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1107</width>
+    <height>527</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>400</width>
+    <height>400</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>SmartDeblur</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="MainResources.qrc">
+    <normaloff>:/SmartDeblur/Icons/Logo2.png</normaloff>:/SmartDeblur/Icons/Logo2.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="margin">
+     <number>3</number>
+    </property>
+    <property name="spacing">
+     <number>2</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>140</height>
+       </size>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Main</string>
+       </attribute>
+       <widget class="QFrame" name="frame">
+        <property name="geometry">
+         <rect>
+          <x>1</x>
+          <y>2</y>
+          <width>161</width>
+          <height>110</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame  {background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(165, 206, 255, 255), stop:0.744318 rgba(219, 240, 255, 255))}
+
+QLabel {background-color: none;}
+</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <widget class="QToolButton" name="btnOpen">
+         <property name="geometry">
+          <rect>
+           <x>3</x>
+           <y>3</y>
+           <width>51</width>
+           <height>60</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Open</string>
+         </property>
+         <property name="icon">
+          <iconset resource="MainResources.qrc">
+           <normaloff>:/SmartDeblur/Icons/Open.png</normaloff>:/SmartDeblur/Icons/Open.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_4">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>90</y>
+           <width>162</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(165, 206, 255, 255), stop:0.744318 rgba(219, 240, 255, 255))
+</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <property name="text">
+          <string>File</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QToolButton" name="btnSave">
+         <property name="geometry">
+          <rect>
+           <x>56</x>
+           <y>3</y>
+           <width>51</width>
+           <height>60</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Save</string>
+         </property>
+         <property name="icon">
+          <iconset resource="MainResources.qrc">
+           <normaloff>:/SmartDeblur/Icons/Save.png</normaloff>:/SmartDeblur/Icons/Save.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QToolButton" name="btnAbout">
+         <property name="geometry">
+          <rect>
+           <x>109</x>
+           <y>3</y>
+           <width>51</width>
+           <height>60</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>About</string>
+         </property>
+         <property name="icon">
+          <iconset resource="MainResources.qrc">
+           <normaloff>:/SmartDeblur/Icons/About.png</normaloff>:/SmartDeblur/Icons/About.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QFrame" name="frame_2">
+        <property name="geometry">
+         <rect>
+          <x>165</x>
+          <y>2</y>
+          <width>114</width>
+          <height>110</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame  {background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(165, 206, 255, 255), stop:0.744318 rgba(219, 240, 255, 255))}
+
+QLabel {background-color: none;}
+
+</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <widget class="QToolButton" name="btnZoomIn">
+         <property name="geometry">
+          <rect>
+           <x>75</x>
+           <y>10</y>
+           <width>31</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>+</string>
+         </property>
+         <property name="icon">
+          <iconset resource="MainResources.qrc">
+           <normaloff>:/SmartDeblur/Icons/Zoom In.png</normaloff>:/SmartDeblur/Icons/Zoom In.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QToolButton" name="btnZoomOut">
+         <property name="geometry">
+          <rect>
+           <x>41</x>
+           <y>10</y>
+           <width>31</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>-</string>
+         </property>
+         <property name="icon">
+          <iconset resource="MainResources.qrc">
+           <normaloff>:/SmartDeblur/Icons/Zoom Out.png</normaloff>:/SmartDeblur/Icons/Zoom Out.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QToolButton" name="btnZoomNormal">
+         <property name="geometry">
+          <rect>
+           <x>6</x>
+           <y>10</y>
+           <width>31</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>1:1</string>
+         </property>
+         <property name="icon">
+          <iconset resource="MainResources.qrc">
+           <normaloff>:/SmartDeblur/Icons/Zoom_Actual.png</normaloff>:/SmartDeblur/Icons/Zoom_Actual.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="checkBoxFitToWindow">
+         <property name="geometry">
+          <rect>
+           <x>16</x>
+           <y>51</y>
+           <width>91</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Fit to Window</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_3">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>90</y>
+           <width>115</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(165, 206, 255, 255), stop:0.744318 rgba(219, 240, 255, 255))
+</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <property name="text">
+          <string>Zoom</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QFrame" name="frame_3">
+        <property name="geometry">
+         <rect>
+          <x>282</x>
+          <y>2</y>
+          <width>437</width>
+          <height>110</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame  {background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(165, 206, 255, 255), stop:0.744318 rgba(219, 240, 255, 255))}
+
+QLabel {background-color: none;}
+</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <widget class="QSlider" name="sliderRadius">
+         <property name="geometry">
+          <rect>
+           <x>77</x>
+           <y>55</y>
+           <width>356</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>500</number>
+         </property>
+         <property name="value">
+          <number>50</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QSlider" name="sliderPSNR">
+         <property name="geometry">
+          <rect>
+           <x>77</x>
+           <y>70</y>
+           <width>356</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>99</number>
+         </property>
+         <property name="value">
+          <number>50</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="labelRadius">
+         <property name="geometry">
+          <rect>
+           <x>49</x>
+           <y>57</y>
+           <width>32</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>5</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="labelPSNR">
+         <property name="geometry">
+          <rect>
+           <x>49</x>
+           <y>72</y>
+           <width>32</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>5</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboBoxType">
+         <property name="geometry">
+          <rect>
+           <x>85</x>
+           <y>3</y>
+           <width>140</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>Out of Focus Blur</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Motion Blur</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QSlider" name="sliderMotionLength">
+         <property name="geometry">
+          <rect>
+           <x>77</x>
+           <y>23</y>
+           <width>356</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>500</number>
+         </property>
+         <property name="value">
+          <number>50</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="labelMotionLength">
+         <property name="geometry">
+          <rect>
+           <x>49</x>
+           <y>24</y>
+           <width>32</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>5</string>
+         </property>
+        </widget>
+        <widget class="QSlider" name="sliderMotionAngle">
+         <property name="geometry">
+          <rect>
+           <x>77</x>
+           <y>39</y>
+           <width>356</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>-90</number>
+         </property>
+         <property name="maximum">
+          <number>90</number>
+         </property>
+         <property name="value">
+          <number>50</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="labelMotionAngle">
+         <property name="geometry">
+          <rect>
+           <x>49</x>
+           <y>41</y>
+           <width>32</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>5</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_2">
+         <property name="geometry">
+          <rect>
+           <x>6</x>
+           <y>5</y>
+           <width>70</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Defect type:</string>
+         </property>
+        </widget>
+        <widget class="QToolButton" name="btnShowOriginal">
+         <property name="geometry">
+          <rect>
+           <x>235</x>
+           <y>0</y>
+           <width>105</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Show Original</string>
+         </property>
+         <property name="icon">
+          <iconset resource="MainResources.qrc">
+           <normaloff>:/SmartDeblur/Icons/image.png</normaloff>:/SmartDeblur/Icons/image.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextBesideIcon</enum>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="labelMotionLengthCaption">
+         <property name="geometry">
+          <rect>
+           <x>5</x>
+           <y>23</y>
+           <width>47</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Length:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="labelMotionAngleCaption">
+         <property name="geometry">
+          <rect>
+           <x>5</x>
+           <y>40</y>
+           <width>47</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Angle:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="labelRadiusCaption">
+         <property name="geometry">
+          <rect>
+           <x>5</x>
+           <y>56</y>
+           <width>47</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Radius:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="labelPSNRCaption">
+         <property name="geometry">
+          <rect>
+           <x>5</x>
+           <y>71</y>
+           <width>47</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Smooth:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_7">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>90</y>
+           <width>438</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(165, 206, 255, 255), stop:0.744318 rgba(219, 240, 255, 255))
+</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <property name="text">
+          <string>Blur Parameters</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QFrame" name="frame_5">
+        <property name="geometry">
+         <rect>
+          <x>722</x>
+          <y>2</y>
+          <width>231</width>
+          <height>110</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame  {background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(165, 206, 255, 255), stop:0.744318 rgba(219, 240, 255, 255))}
+
+QLabel {background-color: none;}
+</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <widget class="QSlider" name="sliderKernelStrength">
+         <property name="geometry">
+          <rect>
+           <x>94</x>
+           <y>22</y>
+           <width>131</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>-99</number>
+         </property>
+         <property name="maximum">
+          <number>99</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="tickPosition">
+          <enum>QSlider::NoTicks</enum>
+         </property>
+         <property name="tickInterval">
+          <number>20</number>
+         </property>
+        </widget>
+        <widget class="QSlider" name="sliderKernelFeather">
+         <property name="geometry">
+          <rect>
+           <x>94</x>
+           <y>66</y>
+           <width>131</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>99</number>
+         </property>
+         <property name="value">
+          <number>10</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="tickPosition">
+          <enum>QSlider::NoTicks</enum>
+         </property>
+         <property name="tickInterval">
+          <number>10</number>
+         </property>
+        </widget>
+        <widget class="QLabel" name="labelKernelPreview">
+         <property name="geometry">
+          <rect>
+           <x>3</x>
+           <y>3</y>
+           <width>85</width>
+           <height>85</height>
+          </rect>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(191, 191, 191);</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="labelStrength">
+         <property name="geometry">
+          <rect>
+           <x>198</x>
+           <y>5</y>
+           <width>31</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>5</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="labelFeather">
+         <property name="geometry">
+          <rect>
+           <x>200</x>
+           <y>47</y>
+           <width>31</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>5</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_5">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>90</y>
+           <width>232</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(165, 206, 255, 255), stop:0.744318 rgba(219, 240, 255, 255))
+</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <property name="text">
+          <string>Kernel Preview &amp; Tuning</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="labelStrengthCaption">
+         <property name="geometry">
+          <rect>
+           <x>94</x>
+           <y>5</y>
+           <width>99</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Correction Strength:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="labelFeatherCaption">
+         <property name="geometry">
+          <rect>
+           <x>97</x>
+           <y>47</y>
+           <width>91</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Edge Feather:</string>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Settings</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="widgetResizable">
+       <bool>false</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>470</width>
+         <height>250</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="MainResources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
