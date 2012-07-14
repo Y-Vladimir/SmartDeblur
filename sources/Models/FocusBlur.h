@@ -8,7 +8,7 @@ class FocusBlur : public Blur
 public:
     double edgeFeather;
     double correctionStrength;
-     const QString getName() const{
+    const QString getName() const{
         return "FocusBlur";
     }
 };

@@ -4,7 +4,7 @@
 
 DeconvolutionTool::DeconvolutionTool(QObject* parent):QObject(parent) {
     // Init MultiThreading
-    int threadsCount = QThread::idealThreadCount() > 0 ? QThread::idealThreadCount() : 2;
+    threadsCount = QThread::idealThreadCount() > 0 ? QThread::idealThreadCount() : 2;
     qDebug("Init Multi-Threading with threads count: %d", threadsCount);
     fftw_plan_with_nthreads(threadsCount);
 
@@ -59,7 +59,7 @@ void DeconvolutionTool::initFFT(const QImage *inputImage) {
 void DeconvolutionTool::doDeconvolution(const QImage *inputImage, QImage *outputImage, const Blur* blur) {
     // Create kernel
     buildKernel(kernelMatrix, width, height, blur);
-    fftw_execute(forwardKernelPlan);   
+    fftw_execute(forwardKernelPlan);
 
     if (blur->previewMode) {
         doDeconvolutionForChannel(inputImage, outputImage, kernelMatrixFFT, width, height, blur->radius, blur->PSNR, GRAY);
@@ -72,6 +72,10 @@ void DeconvolutionTool::doDeconvolution(const QImage *inputImage, QImage *output
         doDeconvolutionForChannel(inputImage, outputImage, kernelMatrixFFT, width, height, blur->radius, blur->PSNR, BLUE);
         emit progressEvent(99);
     }
+}
+
+int DeconvolutionTool::getThreadsCount() {
+    return threadsCount;
 }
 
 void DeconvolutionTool::doDeconvolutionForChannel(const QImage *inputImage, QImage *outputImage, const fftw_complex *kernelMatrixFFT,
@@ -87,10 +91,11 @@ void DeconvolutionTool::doDeconvolutionForChannel(const QImage *inputImage, QIma
         for (int y = 0; y<height; y++) {
             for (int x = 0; x<width; x++) {
                 int index = y*width+x;
-                inputMatrix[index][0] =
-                        (x < kernelRadius || y < kernelRadius || x > width - kernelRadius ||y > height - kernelRadius )
-                        ? -outputMatrix[index][0] / (width * height)
-                        : inputMatrix[index][0];
+                if (x < kernelRadius || y < kernelRadius || x > width - kernelRadius ||y > height - kernelRadius) {
+                    inputMatrix[index][0] = outputMatrix[y*width + x][0] / (width * height);
+                }
+
+                inputMatrix[index][0] = centerFFTKoef(x, y)*fabs(inputMatrix[index][0]);
                 inputMatrix[index][1] = 0;
             }
         }
@@ -109,7 +114,7 @@ void DeconvolutionTool::multiplayFFTs(const fftw_complex *firstFFT, const fftw_c
     for (int y = 0; y<height; y++) {
         for (int x = 0; x<width; x++) {
             int index = y*width + x;
-            double value = centerFFTKoef(x, y) * secondFFT[index][0] ;
+            double value = centerFFTKoef(x, y) * secondFFT[index][0];
             outFFT[index][0] *= value;
             outFFT[index][1] *= value;
         }
@@ -147,7 +152,7 @@ void DeconvolutionTool::buildKernel(fftw_complex* outKernelFFT, const int WIDTH,
         for (int x = 0; x<WIDTH; x++) {
             int index = y*WIDTH + x;
             int value = 0;
-            // if we are in the kernel area, then take pixel values. Otherwise keep 0
+            // if we are in the kernel area (of small kernelImage), then take pixel values. Otherwise keep 0
             if (abs(x-WIDTH/2)<(size-2)/2 && abs(y-HEIGHT/2)<(size-2)/2) {
                 int xLocal = x-(WIDTH-size)/2;
                 int yLocal = y-(HEIGHT-size)/2;

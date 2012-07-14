@@ -6,9 +6,10 @@ WorkerThread::WorkerThread(QObject *parent) : QThread(parent) {
     requestCondition = new QWaitCondition();
 }
 
-void WorkerThread::initFFT(const QImage *inputImage) {
+int WorkerThread::initFFT(const QImage *inputImage) {
     deconvolutionTool->initFFT(inputImage);
     isRequestUpdated = false;
+    return deconvolutionTool->getThreadsCount();
 }
 
 void WorkerThread::deconvolutionRequest(QImage *inputImage, QImage *outputImage, Blur* blur) {

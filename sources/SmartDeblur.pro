@@ -36,3 +36,4 @@ RESOURCES += \
     MainResources.qrc
 
 RC_FILE = SmartDeblur.rc
+#CONFIG += console

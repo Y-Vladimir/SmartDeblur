@@ -112,7 +112,8 @@ void ImageUtils::fillOutputImage(const QImage *inputImage, const fftw_complex *o
         QRgb *line = (QRgb*) outputImage->scanLine(y);
         for (int x = 0; x < width; x++) {
             double value =  outputMatrix[y*width + x][0] / (width * height);
-            value *= centerFFTKoef(x+1, y);
+            value *= centerFFTKoef(x, y);
+            value = fabs(value);
             if (value < 0) {
                 value = 0;
             }

@@ -24,6 +24,7 @@ public:
     DeconvolutionTool(QObject* parent = 0);
     void initFFT(const QImage *inputImage);
     void doDeconvolution(const QImage *inputImage, QImage *outputImage, const Blur *blur);
+    int getThreadsCount();
 
 signals:
     void progressEvent(int);
@@ -37,6 +38,7 @@ private:
     void doDeconvolutionForChannel(const QImage *inputImage, QImage *outputImage, const fftw_complex *kernelMatrixFFT, const int width, const int height, const double kernelRadius, const double PSNR, const CurrentChannel channel);
 
     int width, height;
+    int threadsCount;
 
     fftw_complex *inputMatrix;
     fftw_complex *outputMatrix;

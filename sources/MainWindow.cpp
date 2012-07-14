@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+const QString MainWindow::appVersion = "0.48";
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -31,6 +32,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     progressBar->setValue(0);
     progressBar->setVisible(false);
     lblDeconvolutionTime = new QLabel();
+    lblThreadsCount = new QLabel();
+    lblImageSize = new QLabel();
+    ui->statusBar->addWidget(lblThreadsCount);
+    ui->statusBar->addWidget(lblImageSize);
     ui->statusBar->addWidget(lblDeconvolutionTime);
     ui->statusBar->addWidget(progressBar);
 
@@ -221,25 +226,35 @@ void MainWindow::open() {
 
         if (width > MAX_IMAGE_DIMENSION || height > MAX_IMAGE_DIMENSION) {
             double resizeRatio = qMin(MAX_IMAGE_DIMENSION/width, MAX_IMAGE_DIMENSION/height);
-            int newWidth = width*resizeRatio;
-            int newHeight = height*resizeRatio;
+            width = width*resizeRatio;
+            height = height*resizeRatio;
 
-            newWidth += newWidth % 2;
-            newHeight += newHeight % 2;
+            width += width % 2;
+            height += height % 2;
 
             inputImage = new QImage(inputImage->scaled(
-                                        newWidth, newHeight,
+                                        width, height,
                                         Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+
             QMessageBox::information(this, tr("Smart Deblur"),
                                      tr("Image was resized to %1 * %2 because of performance reason")
-                                     .arg(newWidth).arg(newHeight));
+                                     .arg(width).arg(height));
         }
+
+        // Crop image if sizes are odd
+        if (width%2 != 0 || height%2 !=0) {
+            width -= width % 2;
+            height -= height % 2;
+            inputImage = new QImage(inputImage->copy(0,0, width, height));
+        }
+
+        lblImageSize->setText(tr(" Image Size: %1 x %2 ").arg(inputImage->width()).arg(inputImage->height()));
 
         ui->btnSave->setEnabled(true);
         ui->btnShowOriginal->setEnabled(true);
 
         outputImage = new QImage(inputImage->width(), inputImage->height(), QImage::Format_RGB32);
-        workerThread->initFFT(inputImage);
+        lblThreadsCount->setText(tr(" Threads: %1 ").arg(workerThread->initFFT(inputImage)));
         imageLabel->setPixmap(QPixmap::fromImage(*inputImage));
         updateFullDeconvolution();
         ui->checkBoxFitToWindow->setChecked(true);
@@ -294,7 +309,8 @@ void MainWindow::about() {
                           "<li>Motion blur</li></ul></p>"
                           "<p>SmartDeblur uses the FFTW library which provides fast fourier tranformation implementation. "
                           "See <a href='www.fftw.org'>www.fftw.org</a> for details </p>"
-                          "<p>Author: <b>Vladimir Yuzhikov</b> (yuvladimir@gmail.com), the latest sources and binaries are available on: <a href='https://github.com/Y-Vladimir/SmartDeblur'>https://github.com/Y-Vladimir/SmartDeblur</a></p>"));
+                          "<p>Author: <b>Vladimir Yuzhikov</b> (yuvladimir@gmail.com), the latest sources and binaries are available on: <a href='https://github.com/Y-Vladimir/SmartDeblur'>https://github.com/Y-Vladimir/SmartDeblur</a></p>"
+                          "<p><b>Version: %1</b></p>").arg(appVersion));
 
 }
 

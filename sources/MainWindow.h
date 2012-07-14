@@ -16,6 +16,7 @@
 #include <QResizeEvent>
 #include <QSharedPointer>
 #include <QProgressBar>
+#include <QString>
 
 #include <time.h>
 #include <math.h>
@@ -37,6 +38,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    static const QString appVersion;
 
 protected:
     void resizeEvent(QResizeEvent *resizeEvent);
@@ -52,6 +54,8 @@ private:
 
     QProgressBar* progressBar;
     QLabel* lblDeconvolutionTime;
+    QLabel* lblThreadsCount;
+    QLabel* lblImageSize;
 
     double radius, PSNR, feather, strength, motionLength, motionAngle;
 
@@ -64,6 +68,7 @@ private:
 
     static const double MAX_IMAGE_PIXELS = 3000000; // 3 mega-pixels
     static const double MAX_IMAGE_DIMENSION = 2048; // 3 mega-pixels
+
 
 private slots:
     void radiusChanged();
@@ -88,5 +93,7 @@ private slots:
     void updateProgress(int value);
 
 };
+
+
 
 #endif // MAINWINDOW_H

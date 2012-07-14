@@ -14,7 +14,7 @@ class WorkerThread : public QThread
 
 public:
     explicit WorkerThread(QObject *parent = 0);
-    void initFFT(const QImage *inputImage);
+    int initFFT(const QImage *inputImage);
     void deconvolutionRequest(QImage *inputImage, QImage *outputImage, Blur *blur);
     DeconvolutionTool* getDeconvolutionTool();
 
@@ -28,13 +28,6 @@ private:
     volatile bool isRequestUpdated;
     QImage *inputImage;
     QImage *outputImage;
-    double kernelRadius;
-    double kernelFeather;
-    double kernelStrength;
-    double motionLength;
-    double motionAngle;
-    double PSNR;
-    bool previewMode;
     Blur* blur;
     DeconvolutionTool *deconvolutionTool;
     

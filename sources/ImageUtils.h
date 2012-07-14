@@ -22,7 +22,8 @@ enum CurrentChannel {
 // Optimized version of pow(-1, x+y)
 inline signed char centerFFTKoef(int x, int y) {
     return((x+y) & 1) == 0 ? 1 : -1;
-    //  return 1;
+    // return pow(-1, x+y);
+    // return 1;
 }
 
 class ImageUtils {
