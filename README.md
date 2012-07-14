@@ -12,5 +12,5 @@ See <a href='www.fftw.org'>www.fftw.org</a> for details </p>
 
 Download
 ========
-Version 0.48
-[SmartDeblur-0.48-win.zip](downloads/SmartDeblur-0.48-win.zip)
+Version 0.48: 
+[SmartDeblur-0.48-win.zip](https://github.com/downloads/Y-Vladimir/SmartDeblur/SmartDeblur-0.48-win.zip)
