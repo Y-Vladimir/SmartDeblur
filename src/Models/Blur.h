@@ -9,7 +9,7 @@ public:
     bool previewMode;
     double radius;
     double PSNR;
-    const virtual QString getName() const;
+    const virtual QString getName() const = 0;
 };
 
 #endif // BLUR_H
