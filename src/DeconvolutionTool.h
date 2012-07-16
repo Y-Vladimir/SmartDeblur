@@ -10,7 +10,14 @@
 #include <QPixmap>
 #include <QObject>
 #include <time.h>
+
+#ifdef _MSC_VER
+#define _USE_MATH_DEFINES
+#include <cmath>
+#else
 #include <math.h>
+#endif
+
 #include "ImageUtils.h"
 #include "fftw3.h"
 #include <typeinfo>

@@ -22,6 +22,9 @@
     <height>400</height>
    </size>
   </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
   <property name="windowTitle">
    <string>SmartDeblur</string>
   </property>
@@ -35,6 +38,9 @@
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
+   </property>
+   <property name="acceptDrops">
+    <bool>false</bool>
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <property name="margin">
@@ -50,6 +56,9 @@
         <width>16777215</width>
         <height>140</height>
        </size>
+      </property>
+      <property name="acceptDrops">
+       <bool>true</bool>
       </property>
       <property name="currentIndex">
        <number>0</number>

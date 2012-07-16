@@ -25,12 +25,14 @@ QImage* ImageUtils::buildKernelImage(const FocusBlur* focusBlur) {
     int center = size/2;
     for (int y = 0; y<size; y++) {
         for (int x = 0; x<size; x++) {
-            double dist = sqrt(pow(x-center,2) + pow(y-center,2));
+            double dist = pow((double)x-center,2) + pow((double)y-center,2);
+            dist = sqrt(dist);
             if (dist <= radius) {
                 double mu = radius;
                 double sigma = radius*edgeFeather/100;
 
                 // Gaussian normalized by kernelStrength
+
                 double gaussValue = pow(M_E, -pow((dist-mu)/sigma,2)/2);
                 gaussValue *= 255*(correctionStrength)/100;
 
