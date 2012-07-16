@@ -28,6 +28,7 @@ HEADERS  += MainWindow.h \
 FORMS    += MainWindow.ui
 
 win32: LIBS += -L$$PWD/FFTW/libs/ -llibfftw3-3
+unix:  LIBS +=  -L$$/usr/lib/ -lfftw3_threads -lfftw3
 
 INCLUDEPATH += $$PWD/FFTW
 DEPENDPATH += $$PWD/FFTW
