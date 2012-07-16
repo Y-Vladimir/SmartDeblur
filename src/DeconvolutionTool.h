@@ -12,7 +12,11 @@
 #include <time.h>
 #include <math.h>
 #include "ImageUtils.h"
+#if defined (Q_WS_WIN)
 #include "fftw3.h"
+#else
+#include <fftw3.h>
+#endif
 #include <typeinfo>
 
 
