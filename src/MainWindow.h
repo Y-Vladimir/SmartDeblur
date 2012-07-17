@@ -20,7 +20,11 @@
 
 #include <time.h>
 #include <math.h>
+#if defined (Q_WS_WIN)
 #include "fftw3.h"
+#else
+#include <fftw3.h>
+#endif
 #include "DeconvolutionTool.h"
 #include "WorkerThread.h"
 

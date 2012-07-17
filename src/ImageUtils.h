@@ -5,7 +5,11 @@
 #include <QTime>
 #include <QImage>
 #include <QPainter>
+#if defined (Q_WS_WIN)
 #include "fftw3.h"
+#else
+#include <fftw3.h>
+#endif
 #include <math.h>
 #include "Models/Blur.h"
 #include "Models/FocusBlur.h"
