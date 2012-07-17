@@ -17,10 +17,18 @@
 #include <QSharedPointer>
 #include <QProgressBar>
 #include <QString>
-
+#include <QDropEvent>
+#include <QUrl>
 #include <time.h>
+
+#ifdef _MSC_VER
+#define _USE_MATH_DEFINES
+#include <cmath>
+#else
 #include <math.h>
+#endif
 #if defined (Q_WS_WIN)
+
 #include "fftw3.h"
 #else
 #include <fftw3.h>
@@ -40,13 +48,18 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     
 public:
+    static const double MAX_IMAGE_PIXELS;
+    static const double MAX_IMAGE_DIMENSION;
+
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     static const QString appVersion;
 
 protected:
     void resizeEvent(QResizeEvent *resizeEvent);
-    
+    void dropEvent(QDropEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dragMoveEvent(QDragMoveEvent *event);
 private:
     Ui::MainWindow *ui;
     WorkerThread *workerThread;
@@ -69,9 +82,9 @@ private:
     void initControls();
     void createActions();
     void adjustScrollBar(QScrollBar *scrollBar, double factor);
+    void openFile(QString fileName);
 
-    static const double MAX_IMAGE_PIXELS = 3000000; // 3 mega-pixels
-    static const double MAX_IMAGE_DIMENSION = 2048; // 3 mega-pixels
+
 
 
 private slots:

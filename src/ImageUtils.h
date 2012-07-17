@@ -1,6 +1,13 @@
 #ifndef IMAGEUTILS_H
 #define IMAGEUTILS_H
 
+#ifdef _MSC_VER
+#define _USE_MATH_DEFINES
+#include <cmath>
+#else
+#include <math.h>
+#endif
+
 #include <QDebug>
 #include <QTime>
 #include <QImage>

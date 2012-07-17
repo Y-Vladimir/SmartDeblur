@@ -2,8 +2,12 @@
 #include "ui_MainWindow.h"
 
 const QString MainWindow::appVersion = "0.48";
+const double MainWindow::MAX_IMAGE_PIXELS = 3000000;
+const double MainWindow::MAX_IMAGE_DIMENSION = 2048;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+
+
     ui->setupUi(this);
 
     resize(1000, 700);
@@ -205,60 +209,90 @@ void MainWindow::defectTypeChanged(int type) {
     updateFullDeconvolution();
 }
 
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+ {
+     event->acceptProposedAction();
+ }
+
+ void MainWindow::dragMoveEvent(QDragMoveEvent *event)
+ {
+     event->acceptProposedAction();
+ }
+
+
+void MainWindow::dropEvent(QDropEvent *event)
+{
+    QList<QUrl> urls = event->mimeData()->urls();
+    if (urls.isEmpty()) {
+        return;
+    }
+
+    QString fileName = urls.first().toLocalFile();
+    if (fileName.isEmpty()) {
+        return;
+    }
+    event->acceptProposedAction();
+    openFile(fileName);
+
+}
+
+void MainWindow::openFile(QString fileName) {
+    delete(inputImage);
+    delete(outputImage);
+    inputImage = new QImage(fileName);
+
+    if (inputImage->isNull()) {
+        QMessageBox::information(this, tr("Smart Deblur"),
+                                 tr("Cannot load %1.").arg(fileName));
+        return;
+    }
+
+    // Resize image if it's necessary
+    int width = inputImage->width();
+    int height = inputImage->height();
+
+    if (width > MAX_IMAGE_DIMENSION || height > MAX_IMAGE_DIMENSION) {
+        double resizeRatio = qMin(MAX_IMAGE_DIMENSION/width, MAX_IMAGE_DIMENSION/height);
+        width = width*resizeRatio;
+        height = height*resizeRatio;
+
+        width += width % 2;
+        height += height % 2;
+
+        inputImage = new QImage(inputImage->scaled(
+                                    width, height,
+                                    Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+
+        QMessageBox::information(this, tr("Smart Deblur"),
+                                 tr("Image was resized to %1 * %2 because of performance reason")
+                                 .arg(width).arg(height));
+    }
+
+    // Crop image if sizes are odd
+    if (width%2 != 0 || height%2 !=0) {
+        width -= width % 2;
+        height -= height % 2;
+        inputImage = new QImage(inputImage->copy(0,0, width, height));
+    }
+
+    lblImageSize->setText(tr(" Image Size: %1 x %2 ").arg(inputImage->width()).arg(inputImage->height()));
+
+    ui->btnSave->setEnabled(true);
+    ui->btnShowOriginal->setEnabled(true);
+
+    outputImage = new QImage(inputImage->width(), inputImage->height(), QImage::Format_RGB32);
+    lblThreadsCount->setText(tr(" Threads: %1 ").arg(workerThread->initFFT(inputImage)));
+    imageLabel->setPixmap(QPixmap::fromImage(*inputImage));
+    updateFullDeconvolution();
+    ui->checkBoxFitToWindow->setChecked(true);
+    fitToWindow();
+}
 
 void MainWindow::open() {
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Open File"), QDir::currentPath());
     if (!fileName.isEmpty()) {
-        delete(inputImage);
-        delete(outputImage);
-        inputImage = new QImage(fileName);
-
-        if (inputImage->isNull()) {
-            QMessageBox::information(this, tr("Smart Deblur"),
-                                     tr("Cannot load %1.").arg(fileName));
-            return;
-        }
-
-        // Resize image if it's necessary
-        int width = inputImage->width();
-        int height = inputImage->height();
-
-        if (width > MAX_IMAGE_DIMENSION || height > MAX_IMAGE_DIMENSION) {
-            double resizeRatio = qMin(MAX_IMAGE_DIMENSION/width, MAX_IMAGE_DIMENSION/height);
-            width = width*resizeRatio;
-            height = height*resizeRatio;
-
-            width += width % 2;
-            height += height % 2;
-
-            inputImage = new QImage(inputImage->scaled(
-                                        width, height,
-                                        Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-
-            QMessageBox::information(this, tr("Smart Deblur"),
-                                     tr("Image was resized to %1 * %2 because of performance reason")
-                                     .arg(width).arg(height));
-        }
-
-        // Crop image if sizes are odd
-        if (width%2 != 0 || height%2 !=0) {
-            width -= width % 2;
-            height -= height % 2;
-            inputImage = new QImage(inputImage->copy(0,0, width, height));
-        }
-
-        lblImageSize->setText(tr(" Image Size: %1 x %2 ").arg(inputImage->width()).arg(inputImage->height()));
-
-        ui->btnSave->setEnabled(true);
-        ui->btnShowOriginal->setEnabled(true);
-
-        outputImage = new QImage(inputImage->width(), inputImage->height(), QImage::Format_RGB32);
-        lblThreadsCount->setText(tr(" Threads: %1 ").arg(workerThread->initFFT(inputImage)));
-        imageLabel->setPixmap(QPixmap::fromImage(*inputImage));
-        updateFullDeconvolution();
-        ui->checkBoxFitToWindow->setChecked(true);
-        fitToWindow();
+        openFile(fileName);
     }
 }
 
@@ -352,6 +386,8 @@ void MainWindow::initControls() {
 
     ui->btnSave->setEnabled(false);
     ui->btnShowOriginal->setEnabled(false);
+
+    this->setAcceptDrops(true);
 }
 
 void MainWindow::createActions() {
