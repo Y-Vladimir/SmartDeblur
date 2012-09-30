@@ -18,6 +18,8 @@ void WorkerThread::deconvolutionRequest(QImage *inputImage, QImage *outputImage,
     this->outputImage = outputImage;
     isRequestUpdated = true;
 
+    deconvolutionTool->cancelProcessing();
+
     // Wake-up waited thread
     requestCondition->wakeAll();
 }
@@ -25,7 +27,6 @@ void WorkerThread::deconvolutionRequest(QImage *inputImage, QImage *outputImage,
 DeconvolutionTool *WorkerThread::getDeconvolutionTool() {
     return deconvolutionTool;
 }
-
 
 void WorkerThread::run() {
     qDebug("Started");
@@ -35,12 +36,19 @@ void WorkerThread::run() {
         requestCondition->wait(mutex);
 
         // Deconvoltion in the cycle in order to catch last request during processing one of previous requests
-        // Otherwise we can miss the last request (kind of Race Condition issue)
+        // Otherwise we can miss the last request (kind of "Race Condition" issue)
         while (isRequestUpdated) {
             isRequestUpdated = false;
             timer.restart();
-            deconvolutionTool->doDeconvolution(inputImage, outputImage, blur);
+            bool result = deconvolutionTool->doDeconvolution(inputImage, outputImage, blur);
             emit deconvolutionFinished(timer.elapsed());
+            // if gray preivew is not canceled, start color preview
+            if (result && blur->mode != HIGH_QUALITY) {
+                blur->mode = PREVIEW_COLOR;
+                if (deconvolutionTool->doDeconvolution(inputImage, outputImage, blur)) {
+                    emit deconvolutionFinished(timer.elapsed());
+                }
+            }
         }
 
         mutex->unlock();

@@ -6,6 +6,7 @@
 #include <QImage>
 #include <QPainter>
 #include <QTime>
+#include <QTimer>
 #include <QThread>
 #include <QLabel>
 #include <QScrollBar>
@@ -35,6 +36,8 @@
 #endif
 #include "DeconvolutionTool.h"
 #include "WorkerThread.h"
+#include "HelpDialog.h"
+#include "CheckUpdatesThread.h"
 
 
 namespace Ui {
@@ -49,7 +52,7 @@ class MainWindow : public QMainWindow
     
 public:
     static const double MAX_IMAGE_PIXELS;
-    static const double MAX_IMAGE_DIMENSION;
+    static double MAX_IMAGE_DIMENSION;
 
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -61,8 +64,11 @@ protected:
     void dragEnterEvent(QDragEnterEvent *event);
     void dragMoveEvent(QDragMoveEvent *event);
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow *ui;    
+    HelpDialog *helpDialog;
+    QTimer *startupTimer;
     WorkerThread *workerThread;
+    CheckUpdatesThread *checkUpdatesThread;
     QLabel *imageLabel;
     double scaleFactor;
 
@@ -74,7 +80,7 @@ private:
     QLabel* lblThreadsCount;
     QLabel* lblImageSize;
 
-    double radius, PSNR, feather, strength, motionLength, motionAngle;
+    double radius, quality, feather, strength, motionLength, motionAngle;
 
     Blur* generateBlurInfo(bool previewMode);
     void updatePreviewDeconvolution();
@@ -101,13 +107,16 @@ private slots:
     void zoomOut();
     void actualSize();
     void fitToWindow();
-    void about();
+    void help();
     void showOriginalPressed();
     void showOriginalReleased();
     void updateFullDeconvolution();
     void updateZoomControls();
     void updatePreviewImage(int deconvolutionTime);
-    void updateProgress(int value);
+    void updateProgress(int value, QString text);
+    void imageSizeLimitChanged(int value);
+    void tvIterationsCountChanged(int value);
+    void previewMethodChanged(int value);
 
 };
 

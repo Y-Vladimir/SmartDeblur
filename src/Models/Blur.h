@@ -3,12 +3,18 @@
 
 #include <QString>
 
+enum ProcessMode {
+    PREVIEW_GRAY,
+    PREVIEW_COLOR,
+    HIGH_QUALITY
+};
+
 class Blur
 {
 public:
-    bool previewMode;
+    ProcessMode mode;
     double radius;
-    double PSNR;
+    double smooth;
     const virtual QString getName() const = 0;
 };
 

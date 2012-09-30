@@ -188,7 +188,7 @@ QLabel {background-color: none;}
           </rect>
          </property>
          <property name="text">
-          <string>About</string>
+          <string>Help</string>
          </property>
          <property name="icon">
           <iconset resource="MainResources.qrc">
@@ -416,7 +416,7 @@ QLabel {background-color: none;}
           <number>99</number>
          </property>
          <property name="value">
-          <number>50</number>
+          <number>30</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -465,6 +465,11 @@ QLabel {background-color: none;}
          <item>
           <property name="text">
            <string>Motion Blur</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Gaussian Blur</string>
           </property>
          </item>
         </widget>
@@ -854,6 +859,238 @@ QLabel {background-color: none;}
        <attribute name="title">
         <string>Settings</string>
        </attribute>
+       <widget class="QFrame" name="frame_4">
+        <property name="geometry">
+         <rect>
+          <x>1</x>
+          <y>2</y>
+          <width>161</width>
+          <height>110</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame  {background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(165, 206, 255, 255), stop:0.744318 rgba(219, 240, 255, 255))}
+
+QLabel {background-color: none;}
+
+</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <widget class="QLabel" name="label_6">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>90</y>
+           <width>162</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(165, 206, 255, 255), stop:0.744318 rgba(219, 240, 255, 255))
+</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <property name="text">
+          <string>General</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label">
+         <property name="geometry">
+          <rect>
+           <x>6</x>
+           <y>7</y>
+           <width>151</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Image size limit (largest side):</string>
+         </property>
+        </widget>
+        <widget class="QSpinBox" name="imageSizeLimitSpinBox">
+         <property name="geometry">
+          <rect>
+           <x>8</x>
+           <y>27</y>
+           <width>81</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>100</number>
+         </property>
+         <property name="maximum">
+          <number>10000</number>
+         </property>
+         <property name="value">
+          <number>3000</number>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_8">
+         <property name="geometry">
+          <rect>
+           <x>5</x>
+           <y>52</y>
+           <width>151</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(214, 0, 0);</string>
+         </property>
+         <property name="text">
+          <string>Increase the value may cause slow/unstable work!</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QFrame" name="frame_6">
+        <property name="geometry">
+         <rect>
+          <x>165</x>
+          <y>2</y>
+          <width>173</width>
+          <height>110</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame  {background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(165, 206, 255, 255), stop:0.744318 rgba(219, 240, 255, 255))}
+
+QLabel {background-color: none;}
+
+</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <widget class="QLabel" name="label_9">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>90</y>
+           <width>174</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(165, 206, 255, 255), stop:0.744318 rgba(219, 240, 255, 255))
+</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <property name="text">
+          <string>Deconvolution</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QSpinBox" name="tvIterationsCountSpinBox">
+         <property name="geometry">
+          <rect>
+           <x>9</x>
+           <y>27</y>
+           <width>81</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>50</number>
+         </property>
+         <property name="maximum">
+          <number>1000</number>
+         </property>
+         <property name="value">
+          <number>500</number>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_10">
+         <property name="geometry">
+          <rect>
+           <x>7</x>
+           <y>7</y>
+           <width>161</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Iterations count for High-Quality:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_11">
+         <property name="geometry">
+          <rect>
+           <x>9</x>
+           <y>61</y>
+           <width>91</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Preview method:</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="previewMethodComboBox">
+         <property name="geometry">
+          <rect>
+           <x>98</x>
+           <y>58</y>
+           <width>70</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>Wiener</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Tikhonov</string>
+          </property>
+         </item>
+        </widget>
+       </widget>
       </widget>
      </widget>
     </item>

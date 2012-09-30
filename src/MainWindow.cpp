@@ -1,16 +1,20 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
-const QString MainWindow::appVersion = "0.48";
+
 const double MainWindow::MAX_IMAGE_PIXELS = 3000000;
-const double MainWindow::MAX_IMAGE_DIMENSION = 2048;
+double MainWindow::MAX_IMAGE_DIMENSION = 3000;
+const QString MainWindow::appVersion = "1.27";
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 
 
     ui->setupUi(this);
 
+    setWindowTitle("SmartDeblur v. " + appVersion);
     resize(1000, 700);
+
+    helpDialog = new HelpDialog(this);
 
     imageLabel = new QLabel;
     imageLabel->setBackgroundRole(QPalette::Base);
@@ -21,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->scrollArea->setWidget(imageLabel);
 
     radius = 9;
-    PSNR = 0.001;
+    quality = 30;
 
     workerThread = new WorkerThread();
 
@@ -33,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     updateZoomControls();
 
     progressBar = new QProgressBar();
+    progressBar->setStyleSheet("QProgressBar { border: 2px solid grey;  border-radius: 5px; text-align: center; }");
     progressBar->setValue(0);
     progressBar->setVisible(false);
     lblDeconvolutionTime = new QLabel();
@@ -44,6 +49,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->statusBar->addWidget(progressBar);
 
     workerThread->start();
+
+    if (helpDialog->isShowOnStartup()) {
+        // Delay start because we need to wait while main window will be initialized
+        startupTimer = new QTimer();
+        startupTimer->setSingleShot(true);
+        connect(startupTimer, SIGNAL(timeout()), SLOT(help()));
+        startupTimer->start(500);
+    }
+
+    checkUpdatesThread = new CheckUpdatesThread();
+    //checkUpdatesThread->start();
 }
 
 
@@ -61,11 +77,15 @@ void MainWindow::updatePreviewImage(int deconvolutionTime) {
     lblDeconvolutionTime->setText(" Last operation time: " + QString::number(deconvolutionTime) + " ms ");
 }
 
-void MainWindow::updateProgress(int value) {
+void MainWindow::updateProgress(int value, QString text) {
+    progressBar->setFormat(QString("%1: %p%").arg(text));
     progressBar->setVisible(true);
     progressBar->setValue(value);
-}
+    if (value==progressBar->maximum()) {
+        progressBar->setVisible(false);
+    }
 
+}
 
 Blur *MainWindow::generateBlurInfo(bool previewMode) {
     Blur* blur;
@@ -75,19 +95,23 @@ Blur *MainWindow::generateBlurInfo(bool previewMode) {
         focusBlur->radius = radius;
         focusBlur->edgeFeather = feather;
         focusBlur->correctionStrength = strength;
-        focusBlur->PSNR = PSNR;
-        focusBlur->previewMode = previewMode;
         kernelImage = ImageUtils::buildKernelImage(focusBlur);
         blur = focusBlur;
-    } else {
+    } else if (ui->comboBoxType->currentIndex() == 1) {
         MotionBlur* motionBlur = new MotionBlur();
         motionBlur->radius = motionLength;
         motionBlur->angle = motionAngle;
-        motionBlur->PSNR = PSNR;
-        motionBlur->previewMode = previewMode;
         kernelImage = ImageUtils::buildKernelImage(motionBlur);
         blur = motionBlur;
+    } else if (ui->comboBoxType->currentIndex() == 2) {
+        GaussianBlur* gaussianBlur = new GaussianBlur();
+        gaussianBlur->radius = radius;
+        kernelImage = ImageUtils::buildKernelImage(gaussianBlur);
+        blur = gaussianBlur;
     }
+
+    blur->smooth = quality;
+    blur->mode = previewMode ? PREVIEW_GRAY : HIGH_QUALITY;
     // Update kernel preview
     ui->labelKernelPreview->setPixmap(QPixmap::fromImage(kernelImage->scaled(ui->labelKernelPreview->size())));
     delete(kernelImage);
@@ -120,8 +144,8 @@ void MainWindow::radiusChanged() {
 
 void MainWindow::PSNRChanged() {
     // Non-linear transformation
-    PSNR = pow(1.07, ui->sliderPSNR->value())/10000.0;
-    ui->labelPSNR->setText(QString::number(ui->sliderPSNR->value()) + "%");
+    quality = ui->sliderPSNR->value();
+    ui->labelPSNR->setText(QString::number(quality) + "%");
     updatePreviewDeconvolution();
 }
 
@@ -151,14 +175,16 @@ void MainWindow::motionAngleChanged() {
 }
 
 void MainWindow::defectTypeChanged(int type) {
-    bool motionVisible = (type == 1);
+    bool motionVisible = type == 1;
     int yMotion1 = 29;
     int yMotion2 = 49;
     int yMotion3 = 69;
 
-    bool focusVisible = (type == 0);
+    bool focusVisible = type == 0;
     int yFocus1 = 36;
     int yFocus2 = 63;
+
+    bool gaussianVisible = type == 2;
 
     // Set visibility
     ui->labelMotionLengthCaption->setVisible(motionVisible);
@@ -169,9 +195,9 @@ void MainWindow::defectTypeChanged(int type) {
     ui->labelMotionAngle->setVisible(motionVisible);
     ui->sliderMotionAngle->setVisible(motionVisible);
 
-    ui->labelRadiusCaption->setVisible(focusVisible);
-    ui->labelRadius->setVisible(focusVisible);
-    ui->sliderRadius->setVisible(focusVisible);
+    ui->labelRadiusCaption->setVisible(focusVisible || gaussianVisible);
+    ui->labelRadius->setVisible(focusVisible || gaussianVisible);
+    ui->sliderRadius->setVisible(focusVisible || gaussianVisible);
 
     ui->labelFeatherCaption->setVisible(focusVisible);
     ui->labelFeather->setVisible(focusVisible);
@@ -210,14 +236,14 @@ void MainWindow::defectTypeChanged(int type) {
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
- {
-     event->acceptProposedAction();
- }
+{
+    event->acceptProposedAction();
+}
 
- void MainWindow::dragMoveEvent(QDragMoveEvent *event)
- {
-     event->acceptProposedAction();
- }
+void MainWindow::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->acceptProposedAction();
+}
 
 
 void MainWindow::dropEvent(QDropEvent *event)
@@ -283,7 +309,7 @@ void MainWindow::openFile(QString fileName) {
     outputImage = new QImage(inputImage->width(), inputImage->height(), QImage::Format_RGB32);
     lblThreadsCount->setText(tr(" Threads: %1 ").arg(workerThread->initFFT(inputImage)));
     imageLabel->setPixmap(QPixmap::fromImage(*inputImage));
-    updateFullDeconvolution();
+    // updateFullDeconvolution();
     ui->checkBoxFitToWindow->setChecked(true);
     fitToWindow();
 }
@@ -334,18 +360,11 @@ void MainWindow::fitToWindow() {
     scaleImage(factor);
 }
 
-void MainWindow::about() {
-    QMessageBox::about(this, tr("About SmartDeblur"),
-                       tr("<p>The <b>SmartDeblur</b> is a tool for restoration of defocused and blurred images. "
-                          "Algorithm based on Wiener deconvolution.<br>"
-                          "Supported defect types:<ul>"
-                          "<li>Out of Focus blur (with kernel deep tuning)</li>"
-                          "<li>Motion blur</li></ul></p>"
-                          "<p>SmartDeblur uses the FFTW library which provides fast fourier tranformation implementation. "
-                          "See <a href='www.fftw.org'>www.fftw.org</a> for details </p>"
-                          "<p>Author: <b>Vladimir Yuzhikov</b> (yuvladimir@gmail.com), the latest sources and binaries are available on: <a href='https://github.com/Y-Vladimir/SmartDeblur'>https://github.com/Y-Vladimir/SmartDeblur</a></p>"
-                          "<p><b>Version: %1</b></p>").arg(appVersion));
-
+void MainWindow::help() {
+    helpDialog->exec();
+    if (helpDialog->isOpenExampleAfterClose()) {
+        openFile(":/SmartDeblur/Icons/BlurExample1.jpg");
+    }
 }
 
 void MainWindow::showOriginalPressed() {
@@ -369,12 +388,12 @@ void MainWindow::scaleImage(double factor) {
     adjustScrollBar(ui->scrollArea->verticalScrollBar(), factor);
 
     ui->btnZoomIn->setEnabled(scaleFactor < 1.0);
-    ui->btnZoomOut->setEnabled(scaleFactor > 0.3);       
+    ui->btnZoomOut->setEnabled(scaleFactor > 0.3);
 }
 
 void MainWindow::initControls() {
     ui->sliderRadius->setValue(1);
-    ui->sliderPSNR->setValue(40);
+    ui->sliderPSNR->setValue(29);
     ui->sliderKernelStrength->setValue(0);
     ui->sliderKernelFeather->setValue(20);
 
@@ -387,6 +406,8 @@ void MainWindow::initControls() {
     ui->btnSave->setEnabled(false);
     ui->btnShowOriginal->setEnabled(false);
 
+    ui->imageSizeLimitSpinBox->setValue(MAX_IMAGE_DIMENSION);
+
     this->setAcceptDrops(true);
 }
 
@@ -398,7 +419,7 @@ void MainWindow::createActions() {
 
     connect(ui->btnOpen, SIGNAL(clicked()), this, SLOT(open()));
     connect(ui->btnSave, SIGNAL(clicked()), this, SLOT(save()));
-    connect(ui->btnAbout, SIGNAL(clicked()), this, SLOT(about()));
+    connect(ui->btnAbout, SIGNAL(clicked()), this, SLOT(help()));
 
     connect(ui->sliderRadius, SIGNAL(valueChanged(int)), this, SLOT(radiusChanged()));
     connect(ui->sliderKernelFeather, SIGNAL(valueChanged(int)), this, SLOT(kernelFeatherChanged()));
@@ -418,9 +439,14 @@ void MainWindow::createActions() {
     connect(ui->btnShowOriginal, SIGNAL(released()), this, SLOT(showOriginalReleased()));
 
     connect(ui->comboBoxType, SIGNAL(currentIndexChanged(int)), this, SLOT(defectTypeChanged(int)));
+    //connect(ui->, SIGNAL())
 
     connect(workerThread, SIGNAL(deconvolutionFinished(int)), SLOT(updatePreviewImage(int)));
-    connect(workerThread->getDeconvolutionTool(), SIGNAL(progressEvent(int)), this, SLOT(updateProgress(int)));
+    connect(workerThread->getDeconvolutionTool(), SIGNAL(progressEvent(int, QString)), this, SLOT(updateProgress(int, QString)));
+
+    connect(ui->imageSizeLimitSpinBox, SIGNAL(valueChanged(int)), SLOT(imageSizeLimitChanged(int)));
+    connect(ui->tvIterationsCountSpinBox, SIGNAL(valueChanged(int)), SLOT(tvIterationsCountChanged(int)));
+    connect(ui->previewMethodComboBox, SIGNAL(currentIndexChanged(int)), SLOT(previewMethodChanged(int)));
 }
 
 void MainWindow::adjustScrollBar(QScrollBar *scrollBar, double factor) {
@@ -443,4 +469,17 @@ void MainWindow::updateZoomControls() {
     if (fitChecked) {
         fitToWindow();
     }
+}
+
+
+void MainWindow::imageSizeLimitChanged(int value) {
+    MAX_IMAGE_DIMENSION = value;
+}
+
+void MainWindow::tvIterationsCountChanged(int value) {
+    workerThread->getDeconvolutionTool()->setTVIterationsCount(value);
+}
+
+void MainWindow::previewMethodChanged(int value) {
+    workerThread->getDeconvolutionTool()->setPreviewMethod(value);
 }

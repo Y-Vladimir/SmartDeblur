@@ -1,0 +1,16 @@
+<app name="SmartDeblur" lastVersion="1.27">
+	<description>New changes are listed below:</description>
+	<changes>
+		<item>New deconvolution methods added (Tikhonov, Total Variation prior)</item>
+		<item>Speed improved (about 2.5x)</item>
+		<item>Memory consupmtion decreased (about 1.5x)</item>
+		<item>Max image size increased</item>
+		<item>Settings page added</item>
+		<item>Updates checker added</item>
+		<item>Drag and drop added</item>
+		<item>Help screen with image example added</item>
+		<item>Wiener deconvolution bug fixed</item>
+	</changes>
+	<date>09/30/2012</date>
+	<url>https://github.com/Y-Vladimir/SmartDeblur/downloads</url>		
+</app>

@@ -17,10 +17,11 @@
 #else
 #include <fftw3.h>
 #endif
-#include <math.h>
 #include "Models/Blur.h"
 #include "Models/FocusBlur.h"
 #include "Models/MotionBlur.h"
+#include "Models/GaussianBlur.h"
+#include "Models/ProcessingContext.h"
 
 enum CurrentChannel {
     RED,
@@ -42,9 +43,11 @@ class ImageUtils {
 public:
     static QImage* buildKernelImage(const FocusBlur* focusBlur);
     static QImage* buildKernelImage(const MotionBlur* motionBlur);
+    static QImage *buildKernelImage(const GaussianBlur* gaussianBlur);
 
-    static void fillInputMatrix(fftw_complex *inputMatrix, const QImage *inputImage, const int width, const int height, const CurrentChannel channel);
-    static void fillOutputImage(const QImage *inputImage, const fftw_complex *outputMatrix, QImage *outputImage, const int width, const int height, const CurrentChannel channel);
+    static void fillInputMatrix(ProcessingContext *processingContext, const CurrentChannel channel);
+    static void fillMatrixFromImage(ProcessingContext *processingContext, const CurrentChannel channel);
+    static void fillImageFromMatrix(ProcessingContext *processingContext, const CurrentChannel channel);
 };
 
 #endif // IMAGEUTILS_H

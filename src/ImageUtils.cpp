@@ -93,10 +93,39 @@ QImage *ImageUtils::buildKernelImage(const MotionBlur* motionBlur) {
     return kernelImage;
 }
 
-void ImageUtils::fillInputMatrix(fftw_complex *inputMatrix, const QImage *inputImage, const int width, const int height, const CurrentChannel channel) {
-    for (int y=0; y<height; y++) {
-        QRgb *line = (QRgb*)inputImage->constScanLine(y);
-        for (int x=0; x<width; x++) {
+QImage *ImageUtils::buildKernelImage(const GaussianBlur* gaussianBlur) {
+    // Double radius plus 2*3 pixels to ensure that generated kernel will be fitted inside the image
+    int size = 3.5 * gaussianBlur->radius + 6;
+    size += size%2;
+
+    QImage* kernelImage = new QImage(size, size, QImage::Format_RGB32);
+    kernelImage->fill(Qt::red);
+
+    // Prepare painter to have antialiasing and sub-pixel accuracy
+    QPainter kernelPainter(kernelImage);
+    kernelPainter.setRenderHint(QPainter::Antialiasing);
+
+    // Workarround to have high accuracy, otherwise drawLine method has some micro-mistakes in the rendering
+    QPen pen = kernelPainter.pen();
+    pen.setColor(Qt::white);
+    kernelPainter.setPen(pen);
+
+    for (int y=0; y<size; y++) {
+        for (int x=0; x<size; x++) {
+            int value = 255*(pow(M_E, -(pow(x-size/2,2)+pow(y-size/2,2))/(2*pow(gaussianBlur->radius,2))));
+            kernelImage->setPixel(x,y,qRgb(value,value,value));
+        }
+    }
+
+    kernelPainter.end();
+
+    return kernelImage;
+}
+
+void ImageUtils::fillMatrixFromImage(ProcessingContext *processingContext, const CurrentChannel channel) {
+    for (int y=0; y<processingContext->height; y++) {
+        QRgb *line = (QRgb*)processingContext->inputImage->constScanLine(y);
+        for (int x=0; x<processingContext->width; x++) {
             int value = 0;
             switch (channel) {
             case RED:   value = qRed(line[x]); break;
@@ -104,25 +133,23 @@ void ImageUtils::fillInputMatrix(fftw_complex *inputMatrix, const QImage *inputI
             case BLUE:  value = qBlue(line[x]); break;
             case GRAY:  value = qGray(line[x]); break;
             }
-            inputMatrix[y*width + x][0] = centerFFTKoef(x, y) * value;
+            processingContext->inputImageMatrix[y*processingContext->width + x] = value;
         }
     }
 }
 
-void ImageUtils::fillOutputImage(const QImage *inputImage, const fftw_complex *outputMatrix,  QImage *outputImage, const int width, const int height, const CurrentChannel channel) {
-    for (int y = 0; y < height; y++) {
-        QRgb *line = (QRgb*) outputImage->scanLine(y);
-        for (int x = 0; x < width; x++) {
-            double value =  outputMatrix[y*width + x][0] / (width * height);
-            value *= centerFFTKoef(x, y);
-            value = fabs(value);
+void ImageUtils::fillImageFromMatrix(ProcessingContext* processingContext, const CurrentChannel channel) {
+    double k = 1.0/(processingContext->width * processingContext->height);
+    for (int y = 0; y < processingContext->height; y++) {
+        QRgb *line = (QRgb*) processingContext->outputImage->scanLine(y);
+        for (int x = 0; x < processingContext->width; x++) {
+            double value =  k * processingContext->outputImageMatrix[y*processingContext->width + x];
             if (value < 0) {
                 value = 0;
             }
             if (value > 255) {
                 value = 255;
             }
-
             switch (channel) {
             case RED:   line[x] = qRgb(value, 0, 0); break;
             case GREEN: line[x] = line[x] | qRgb(0, value, 0); break;

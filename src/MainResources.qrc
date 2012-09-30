@@ -9,5 +9,7 @@
         <file>Icons/image.png</file>
         <file>Icons/Logo1.png</file>
         <file>Icons/Logo2.png</file>
+        <file>Icons/BlurExample1.jpg</file>
+        <file>Icons/Attention.png</file>
     </qresource>
 </RCC>
