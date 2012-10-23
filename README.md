@@ -37,9 +37,7 @@ Download
 ========
 Version 1.27: 
 [SmartDeblur-1.27-win.zip](https://github.com/downloads/Y-Vladimir/SmartDeblur/SmartDeblur-1.27-win.zip)
-
-"Quick&dirty, no promises" Mac OS X binary of commit 238255f by [gibbonweb](https://github.com/gibbonweb/SmartDeblur):
-[SmartDeblur-238255f-mac.dmg](https://github.com/downloads/gibbonweb/SmartDeblur/SmartDeblur-238255f-mac.dmg)
+[SmartDeblur-1.27-mac.dmg](https://github.com/downloads/gibbonweb/SmartDeblur/SmartDeblur-1.27-mac.dmg)
 
 License
 ========
