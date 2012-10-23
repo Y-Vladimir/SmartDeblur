@@ -37,6 +37,7 @@ Download
 ========
 Version 1.27: 
 [SmartDeblur-1.27-win.zip](https://github.com/downloads/Y-Vladimir/SmartDeblur/SmartDeblur-1.27-win.zip)
+[SmartDeblur-1.27-mac.dmg](https://github.com/downloads/gibbonweb/SmartDeblur/SmartDeblur-1.27-mac.dmg)
 
 License
 ========
