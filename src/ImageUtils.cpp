@@ -112,7 +112,7 @@ QImage *ImageUtils::buildKernelImage(const GaussianBlur* gaussianBlur) {
 
     for (int y=0; y<size; y++) {
         for (int x=0; x<size; x++) {
-            int value = 255*(pow(M_E, -(pow(x-size/2,2)+pow(y-size/2,2))/(2*pow(gaussianBlur->radius,2))));
+            int value = 255*(pow((double)M_E, -(pow((double)x-size/2,2)+pow((double)y-size/2,2))/(2*pow((double)gaussianBlur->radius,2))));
             kernelImage->setPixel(x,y,qRgb(value,value,value));
         }
     }
