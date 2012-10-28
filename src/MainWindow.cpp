@@ -290,7 +290,7 @@ void MainWindow::openFile(QString fileName) {
                                     Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
         QMessageBox::information(this, tr("Smart Deblur"),
-                                 tr("Image was resized to %1 * %2 because of performance reason")
+                                 tr("Image was resized to %1 * %2 for performance reasons")
                                  .arg(width).arg(height));
     }
 
