@@ -59,26 +59,6 @@ set(USE_SYSTEM_FFTW OFF
       CACHE BOOL
 	  "Use system FFTW")
 include(External_FFTW)
-# set(FFTW_VERSION 3.3.2)
-# set(FFTW_MD5 "6977ee770ed68c85698c7168ffa6e178")
-# set(FFTW_URL_PRE "ftp://ftp.fftw.org/pub/fftw/fftw-")
-# set(FFTW_URL_POST ".tar.gz")
-# set(FFTW_INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/fftw/install)
-# set(FFTW_LIBRARIES_PATH ${FFTW_INSTALL_DIR}/lib/)
-# set(FFTW_LIBRARIES
-  # ${FFTW_LIBRARIES_PATH}${CMAKE_STATIC_LIBRARY_PREFIX}fftw3${CMAKE_STATIC_LIBRARY_SUFFIX}
-  # ${FFTW_LIBRARIES_PATH}${CMAKE_STATIC_LIBRARY_PREFIX}fftw3_threads${CMAKE_STATIC_LIBRARY_SUFFIX})
-
-# include(ExternalProject)
-# ExternalProject_Add( FFTW
-  # URL ${FFTW_URL_PRE}${FFTW_VERSION}${FFTW_URL_POST}
-  # URL_MD5 ${FFTW_MD5}
-  # SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/fftw/src
-  # BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/fftw/src
-  # INSTALL_DIR ${FFTW_INSTALL_DIR}
-  # UPDATE_COMMAND ""
-  # CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --enable-threads
-  # )
 
 include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}
