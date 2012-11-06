@@ -42,9 +42,9 @@ Version 1.27:
 
 Compile for Ubuntu/Debian
 ========
-sudo apt-get install build-essential qt4-qmake qt4-dev-tools libfftw3-dev
+<pre>sudo apt-get install build-essential qt4-qmake qt4-dev-tools libfftw3-dev
 cd src
-qmake -o Makefile smartdeblur.pro && make
+qmake -o Makefile smartdeblur.pro && make</pre>
 
 
 License
