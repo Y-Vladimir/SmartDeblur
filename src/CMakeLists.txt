@@ -1,23 +1,34 @@
 project(SmartDeblur)
 
 cmake_minimum_required(VERSION 2.8)
+
+#------------------------------------------------------------------------------
+# CPack
+#
 include(CPack)
 
+#------------------------------------------------------------------------------
+# Additional Qt libraries
+#
 set(QT_USE_QT3SUPPORT TRUE)
 set(QT_USE_QTNETWORK TRUE)
 set(QT_USE_QTWEBKIT TRUE)
 set(QT_USE_QTXML TRUE)
 
+#------------------------------------------------------------------------------
+# Find Qt
+#
 find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 
 
+#------------------------------------------------------------------------------
+# SmartDeblur UI
+#
 set(SmartDeblur_UI_SRCS
   HelpDialog.ui
   MainWindow.ui
   )
-
-add_subdirectory(Models)
 
 set(SmartDeblur_SRCS
   CheckUpdatesThread.cpp
@@ -52,7 +63,8 @@ QT4_WRAP_CPP(SmartDeblur_MOC_SRCS ${SmartDeblur_MOC_H})
 QT4_ADD_RESOURCES(SmartDeblur_QRC_SRCS ${SmartDeblur_RESOURCES})
 
 #------------------------------------------------------------------------------
-# fftw
+# FFTW
+#
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/FFTW)
 
 set(USE_SYSTEM_FFTW OFF
@@ -67,6 +79,11 @@ include_directories(
   ${QT_INCLUDES}
   )
 
+add_subdirectory(Models)
+
+#------------------------------------------------------------------------------
+# SmartDeblur executable
+#
 add_executable(SmartDeblur
   ${Models_SRCS}
   ${SmartDeblur_MOC_H}
@@ -82,8 +99,18 @@ target_link_libraries(SmartDeblur
   ${QT_LIBRARIES}
   )
 
-INSTALL(TARGETS SmartDeblur
+install(TARGETS SmartDeblur
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
   )
+
+#------------------------------------------------------------------------------
+# Copy libfftw3.dll file to install/bin in Windows
+#
+if(WIN32)
+  string(REPLACE ".lib" ".dll" FFTW_LIBRARY_DLL ${FFTW_LIBRARIES})
+  install(FILES ${FFTW_LIBRARY_DLL}
+    DESTINATION bin
+	)
+endif()
