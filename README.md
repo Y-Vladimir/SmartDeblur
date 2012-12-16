@@ -14,6 +14,11 @@ SmartDeblur uses the FFTW library to provide its fast fourier tranformation impl
 All source files are under the GPL v3 license.<br/>
 <p>Author: <b>Vladimir Yuzhikov</b> (yuvladimir@gmail.com)
 
+Detailed description of algorithms and methods you can see at my articles:<br/>
+<a href="http://yuzhikov.com/articles/BlurredImagesRestoration1.htm">Restoration of defocused and blurred images (part 1) - Theory</a><br/>
+<a href="http://yuzhikov.com/articles/BlurredImagesRestoration2.htm">Restoration of defocused and blurred images (part 2) - Practice</a><br/>
+
+
 Sceenshots
 ==========
 Main Window:
