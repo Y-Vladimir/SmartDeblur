@@ -27,8 +27,8 @@ set(FFTW_THREADS_CONFIGURATION --enable-threads)
 ## Perhaps in the future a set of TryCompiles could be used here.
 set(FFTW_OPTIMIZATION_CONFIGURATION "" CACHE INTERNAL "architecture flags: --enable-sse --enable-sse2 --enable-altivec --enable-mips-ps --enable-cell")
 if(USE_SYSTEM_FFTW)
-  find_library(FFTW_LIBRARIES ${CMAKE_SHARED_LIBRARY_PREFIX}fftw3${CMAKE_SHARED_LIBRARY_SUFFIX})
-  find_path(FFTW_INCLUDES fftw3.h)
+  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeModules/")
+  find_package(FFTW REQUIRED COMPONENTS double threads)
 else()
   set(FFTW_COMPILER_FLAGS
     CC=${CMAKE_C_COMPILER}
