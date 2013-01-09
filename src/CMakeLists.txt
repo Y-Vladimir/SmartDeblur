@@ -96,6 +96,7 @@ add_executable(SmartDeblur
 add_dependencies(SmartDeblur FFTW)
 target_link_libraries(SmartDeblur
   ${FFTW_LIBRARIES}
+  ${FFTW_THREADS_LIBRARIES}
   ${QT_LIBRARIES}
   )
 
