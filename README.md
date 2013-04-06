@@ -1,4 +1,4 @@
-SmartDeblur - with Blind Deconvolution 
+SmartDeblur 2.0 - with Blind Deconvolution 
 ===========
 We are pleased to announce SmartDeblur 2.0.
 This new release features a blind deblurring module which can automatically identify and remove complicated blur patterns in an image. Deblurring efficiency of the original version has also been improved.<br/>
