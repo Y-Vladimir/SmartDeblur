@@ -1,4 +1,12 @@
-SmartDeblur
+SmartDeblur - with Blind Deconvolution 
+===========
+We are pleased to announce SmartDeblur 2.0.
+This new release features a blind deblurring module which can automatically identify and remove complicated blur patterns in an image. Deblurring efficiency of the original version has also been improved.<br/>
+See new web-site for project: <a href="http://smartdeblur.net">SmartDeblur.net</a><br/>
+Example:
+![Main Window 2.0](http://www.smartdeblur.net/example_main.jpg)
+
+SmartDeblur 1.27 - old version
 ===========
 
 SmartDeblur is a tool for restoring defocused and blurred images.
