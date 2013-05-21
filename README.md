@@ -1,10 +1,10 @@
-SmartDeblur 2.0 - with Blind Deconvolution 
+SmartDeblur 2.1 - with Blind Deconvolution
 ===========
-We are pleased to announce SmartDeblur 2.0.
-This new release features a blind deblurring module which can automatically identify and remove complicated blur patterns in an image. Deblurring efficiency of the original version has also been improved.<br/>
+We are pleased to announce SmartDeblur 2.1.
+This new release features a blind deblurring module which can automatically identify and remove complicated blur patterns in an image. Also kernel editor was added.<br/>
 See new web-site for project: <a href="http://smartdeblur.net">SmartDeblur.net</a><br/>
 Example:
-![Main Window 2.0](http://www.smartdeblur.net/example_main.jpg)
+![Main Window 2.1](http://smartdeblur.net/Kernel_editor.jpg)
 
 SmartDeblur 1.27 - old version
 ===========
