@@ -6,7 +6,7 @@
 #include <QNetworkReply>
 #include <QDebug>
 #include <QString>
-#include <QMessageBox>
+#include <QtWidgets/QMessageBox>
 #include <QFile>
 #include <QDomDocument>
 

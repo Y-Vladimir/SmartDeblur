@@ -9,7 +9,7 @@
 #include <QThread>
 #include <QPixmap>
 #include <QObject>
-#include <QApplication>
+#include <QtWidgets/QApplication>
 #include <time.h>
 
 #ifdef _MSC_VER

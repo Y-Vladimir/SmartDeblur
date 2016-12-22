@@ -4,7 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network xml
+QT      += core gui network xml
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = SmartDeblur
 TEMPLATE = app
@@ -37,7 +39,7 @@ FORMS    += MainWindow.ui \
     HelpDialog.ui
 
 win32: LIBS += -L$$PWD/FFTW/libs/ -llibfftw3-3
-unix:  LIBS +=  -L$$/usr/lib/ -lfftw3_threads -lfftw3
+unix:  LIBS +=  -L$$/opt/local/lib/ -lfftw3_threads -lfftw3
 
 INCLUDEPATH += $$PWD/FFTW
 DEPENDPATH += $$PWD/FFTW

@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
+#include <QMimeData>
 
 
 const double MainWindow::MAX_IMAGE_PIXELS = 3000000;
@@ -58,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         startupTimer->start(500);
     }
 
-    checkUpdatesThread = new CheckUpdatesThread();
+    // checkUpdatesThread = new CheckUpdatesThread();
     //checkUpdatesThread->start();
 }
 
@@ -71,7 +72,7 @@ void MainWindow::updatePreviewImage(int deconvolutionTime) {
     progressBar->setValue(0);
     progressBar->setVisible(false);
     // Hack to force update resized pixmap
-    imageLabel->setPixmap(0);
+    // imageLabel->setPixmap(0); // PAI
     imageLabel->setPixmap(QPixmap::fromImage(*outputImage));
 
     lblDeconvolutionTime->setText(" Last operation time: " + QString::number(deconvolutionTime) + " ms ");
