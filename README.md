@@ -44,6 +44,14 @@ Version 1.27: <br/>
 [SmartDeblur-1.27-win.zip](https://github.com/downloads/Y-Vladimir/SmartDeblur/SmartDeblur-1.27-win.zip)<br/>
 [SmartDeblur-1.27-mac.dmg](https://github.com/downloads/gibbonweb/SmartDeblur/SmartDeblur-1.27-mac.dmg)
 
+
+Compile for Ubuntu/Debian
+========
+<pre>sudo apt-get install build-essential qt4-qmake qt4-dev-tools libfftw3-dev
+cd src
+qmake -o Makefile smartdeblur.pro && make</pre>
+
+
 License
 ========
 SmartDeblur is provided under the GPL v3 license
