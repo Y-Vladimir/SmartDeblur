@@ -44,8 +44,11 @@ unix:  LIBS +=  -L$$/opt/local/lib/ -lfftw3_threads -lfftw3
 INCLUDEPATH += $$PWD/FFTW
 DEPENDPATH += $$PWD/FFTW
 
+ICON = SmartBlur.icns
+
 RESOURCES += \
     MainResources.qrc
 
 RC_FILE = SmartDeblur.rc
+
 #CONFIG += console
