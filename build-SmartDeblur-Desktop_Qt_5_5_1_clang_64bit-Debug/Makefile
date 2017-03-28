@@ -596,17 +596,17 @@ SmartDeblur.app/Contents/Resources/empty.lproj:
 SmartDeblur.app/Contents/Info.plist: 
 	@test -d SmartDeblur.app/Contents || mkdir -p SmartDeblur.app/Contents
 	@$(DEL_FILE) SmartDeblur.app/Contents/Info.plist
-	@sed -e "s,@SHORT_VERSION@,1.0,g" -e "s,@FULL_VERSION@,1.0.0,g" -e "s,@TYPEINFO@,????,g" -e "s,@BUNDLEIDENTIFIER@,com.yourcompany.SmartDeblur,g" -e "s,@ICON@,SmartDeblur.rc,g" -e "s,@EXECUTABLE@,SmartDeblur,g" -e "s,@TYPEINFO@,????,g" ../../../Qt/5.5/clang_64/mkspecs/macx-clang/Info.plist.app >SmartDeblur.app/Contents/Info.plist
-SmartDeblur.app/Contents/Resources/SmartDeblur.rc: ../src/SmartDeblur.rc
+	@sed -e "s,@SHORT_VERSION@,1.0,g" -e "s,@FULL_VERSION@,1.0.0,g" -e "s,@TYPEINFO@,????,g" -e "s,@BUNDLEIDENTIFIER@,com.yourcompany.SmartDeblur,g" -e "s,@ICON@,SmartBlur.icns,g" -e "s,@EXECUTABLE@,SmartDeblur,g" -e "s,@TYPEINFO@,????,g" ../../../Qt/5.5/clang_64/mkspecs/macx-clang/Info.plist.app >SmartDeblur.app/Contents/Info.plist
+SmartDeblur.app/Contents/Resources/SmartBlur.icns: ../src/SmartBlur.icns
 	@test -d SmartDeblur.app/Contents/Resources/ || mkdir -p SmartDeblur.app/Contents/Resources/
-	@$(DEL_FILE) SmartDeblur.app/Contents/Resources/SmartDeblur.rc
-	@$(COPY_FILE) ../src/SmartDeblur.rc SmartDeblur.app/Contents/Resources/SmartDeblur.rc
+	@$(DEL_FILE) SmartDeblur.app/Contents/Resources/SmartBlur.icns
+	@$(COPY_FILE) ../src/SmartBlur.icns SmartDeblur.app/Contents/Resources/SmartBlur.icns
 
 all: Makefile \
 		SmartDeblur.app/Contents/PkgInfo \
 		SmartDeblur.app/Contents/Resources/empty.lproj \
 		SmartDeblur.app/Contents/Info.plist \
-		SmartDeblur.app/Contents/Resources/SmartDeblur.rc $(TARGET)
+		SmartDeblur.app/Contents/Resources/SmartBlur.icns $(TARGET)
 
 dist: distdir FORCE
 	(cd `dirname $(DISTDIR)` && $(TAR) $(DISTNAME).tar $(DISTNAME) && $(COMPRESS) $(DISTNAME).tar) && $(MOVE) `dirname $(DISTDIR)`/$(DISTNAME).tar.gz . && $(DEL_FILE) -r $(DISTDIR)

@@ -112,8 +112,9 @@ public:
         centralWidget->setAcceptDrops(false);
         gridLayout = new QGridLayout(centralWidget);
         gridLayout->setSpacing(2);
-        gridLayout->setContentsMargins(3, 3, 3, 3);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setContentsMargins(3, 3, 3, 3);
         tabWidget = new QTabWidget(centralWidget);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
         tabWidget->setMaximumSize(QSize(16777215, 140));
@@ -445,7 +446,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
