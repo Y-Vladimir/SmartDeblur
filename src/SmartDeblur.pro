@@ -36,8 +36,21 @@ HEADERS  += MainWindow.h \
 FORMS    += MainWindow.ui \
     HelpDialog.ui
 
-win32: LIBS += -L$$PWD/FFTW/libs/ -llibfftw3-3
-unix:  LIBS +=  -L$$/usr/lib/ -lfftw3_threads -lfftw3
+unix{
+	exists( /usr/local/cuda ){
+		DEFINES += HAVE_CUFFT
+		INCLUDEPATH += /usr/local/cuda/include
+		LIBS +=  -L$$/usr/local/cuda/lib64/ -lcufftw
+	}
+	!exists( /usr/local/cuda ){
+		LIBS +=  -L$$/usr/lib/ -lfftw3_threads -lfftw3
+	}
+}
+
+win32{
+	LIBS += -L$$PWD/FFTW/libs/ -llibfftw3-3
+}
+
 
 INCLUDEPATH += $$PWD/FFTW
 DEPENDPATH += $$PWD/FFTW

@@ -21,11 +21,7 @@
 
 #include "ImageUtils.h"
 #include "Models/ProcessingContext.h"
-#if defined (Q_WS_WIN)
-#include "fftw3.h"
-#else
-#include <fftw3.h>
-#endif
+
 #include <typeinfo>
 
 

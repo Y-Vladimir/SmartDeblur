@@ -2,9 +2,13 @@
 
 DeconvolutionTool::DeconvolutionTool(QObject* parent):QObject(parent) {
     // Init MultiThreading
+#ifndef HAVE_CUFFT
     threadsCount = QThread::idealThreadCount() > 0 ? QThread::idealThreadCount() : 2;
     qDebug("Init Multi-Threading with threads count: %d", threadsCount);
     fftw_plan_with_nthreads(threadsCount);
+#else
+    threadsCount = 1;
+#endif
     tvIterationsCount = 500;
     previewMethod = 0;
 
