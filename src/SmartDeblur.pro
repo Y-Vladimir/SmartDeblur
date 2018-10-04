@@ -20,7 +20,6 @@ SOURCES += main.cpp\
     CheckUpdatesThread.cpp
 
 HEADERS  += MainWindow.h \
-    FFTW/fftw3.h \
     DeconvolutionTool.h \
     WorkerThread.h \
     ImageUtils.h \
@@ -40,7 +39,7 @@ unix{
 	exists( /usr/local/cuda ){
 		DEFINES += HAVE_CUFFT
 		INCLUDEPATH += /usr/local/cuda/include
-		LIBS +=  -L$$/usr/local/cuda/lib64/ -lcufftw
+		LIBS +=  -L$$/usr/local/cuda/lib64 -lcufftw
 	}
 	!exists( /usr/local/cuda ){
 		LIBS +=  -L$$/usr/lib/ -lfftw3_threads -lfftw3
@@ -49,11 +48,11 @@ unix{
 
 win32{
 	LIBS += -L$$PWD/FFTW/libs/ -llibfftw3-3
+	INCLUDEPATH += $$PWD/FFTW
+	DEPENDPATH += $$PWD/FFTW
+	HEADERS  += FFTW/fftw3.h
 }
 
-
-INCLUDEPATH += $$PWD/FFTW
-DEPENDPATH += $$PWD/FFTW
 
 RESOURCES += \
     MainResources.qrc
