@@ -8,11 +8,6 @@
 #include <math.h>
 #endif
 
-#if defined (Q_WS_WIN)
-#include "fftw3.h"
-#else
-#include <fftw3.h>
-#endif
 
 class MathUtlis
 {

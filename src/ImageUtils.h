@@ -8,15 +8,18 @@
 #include <math.h>
 #endif
 
-#include <QDebug>
-#include <QTime>
-#include <QImage>
-#include <QPainter>
-#if defined (Q_WS_WIN)
+#if defined(HAVE_CUFFT)
+#include <cufftw.h>
+#elif defined (Q_WS_WIN)
 #include "fftw3.h"
 #else
 #include <fftw3.h>
 #endif
+
+#include <QDebug>
+#include <QTime>
+#include <QImage>
+#include <QPainter>
 #include "Models/Blur.h"
 #include "Models/FocusBlur.h"
 #include "Models/MotionBlur.h"
