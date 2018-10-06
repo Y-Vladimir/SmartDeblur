@@ -1,0 +1,41 @@
+os: linux
+dist: xenial
+sudo: required
+compiler: gcc
+language: cpp
+
+addons:
+  apt:
+    packages:
+    - libqt4-dev
+    - libfftw3-dev
+
+matrix:
+  include:
+    - env: NAME="gcc5 + Qt4 + release"
+      script:
+      - mkdir build-release
+      - cd build-release
+      - /usr/lib/x86_64-linux-gnu/qt4/bin/qmake ../src/SmartDeblur.pro CONFIG+=release
+      - make -j2
+    - env: NAME="gcc5 + Qt4 + debug"
+      script:
+      - mkdir build-release
+      - cd build-release
+      - /usr/lib/x86_64-linux-gnu/qt4/bin/qmake ../src/SmartDeblur.pro CONFIG+=debug
+      - make -j2
+    - env: NAME="gcc5 + Qt4 + release + cuda"
+      script:
+      - sudo echo "deb http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64 /" >> /etc/apt/sources.list
+      - sudo apt-get update -y --allow-unauthenticated
+      - sudo apt-get install -y --allow-unauthenticated cuda-cufft-dev-8-0 cuda-misc-headers-8-0
+      - sudo ln -s /usr/local/cuda-8.0/targets/x86_64-linux/include /usr/local/cuda-8.0/include
+      - sudo ln -s /usr/local/cuda-8.0/targets/x86_64-linux/lib /usr/local/cuda-8.0/lib64
+      - sudo ln -s /usr/local/cuda-8.0 /usr/local/cuda
+      - export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+      - mkdir build-release-cuda
+      - cd build-release-cuda
+      - /usr/lib/x86_64-linux-gnu/qt4/bin/qmake ../src/SmartDeblur.pro CONFIG+=debug
+      - make -j2
+    
+
