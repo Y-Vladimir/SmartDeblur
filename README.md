@@ -15,14 +15,14 @@ All source files are under the GPL v3 license.<br/>
 <p>Author: <b>Vladimir Yuzhikov</b> (yuvladimir@gmail.com)
 
 Detailed description of algorithms and methods you can see at my articles:<br/>
-<a href="http://yuzhikov.com/articles/BlurredImagesRestoration1.htm">Restoration of defocused and blurred images (part 1) - Theory</a><br/>
-<a href="http://yuzhikov.com/articles/BlurredImagesRestoration2.htm">Restoration of defocused and blurred images (part 2) - Practice</a><br/>
+<a href="https://yuzhikov.com/articles/BlurredImagesRestoration1.htm">Restoration of defocused and blurred images (part 1) - Theory</a><br/>
+<a href="https://yuzhikov.com/articles/BlurredImagesRestoration2.htm">Restoration of defocused and blurred images (part 2) - Practice</a><br/>
 
 
 Sceenshots
 ==========
 Main Window:
-![Main Window](http://habrastorage.org/storage2/fb7/6ce/ee9/fb76ceee92de9cf664991fed9a54b0bc.png)
+![Main Window](https://habrastorage.org/storage2/fb7/6ce/ee9/fb76ceee92de9cf664991fed9a54b0bc.png)
 
 Features
 ========
