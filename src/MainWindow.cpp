@@ -1,4 +1,6 @@
 #include "MainWindow.h"
+
+#include <QMimeData>
 #include "ui_MainWindow.h"
 
 
@@ -71,7 +73,6 @@ void MainWindow::updatePreviewImage(int deconvolutionTime) {
     progressBar->setValue(0);
     progressBar->setVisible(false);
     // Hack to force update resized pixmap
-    imageLabel->setPixmap(0);
     imageLabel->setPixmap(QPixmap::fromImage(*outputImage));
 
     lblDeconvolutionTime->setText(" Last operation time: " + QString::number(deconvolutionTime) + " ms ");
