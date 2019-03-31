@@ -38,6 +38,26 @@ Features
     <li>Deconvolution methods: Wiener, Tikhonov, Total Variation prior</li>
 </ul>
 
+Building For Linux
+==================
+
+## Deps
+* libfftw3-dev
+* qt5-default
+
+
+```bash 
+git clone https://github.com/Y-Vladimir/SmartDeblur.git
+cd SmartDeblur
+qmake src/SmartDeblur.pro
+make
+```
+
+## Runing
+```./SmartDebulr```
+
+
+
 Download
 ========
 Version 1.27: <br/>
