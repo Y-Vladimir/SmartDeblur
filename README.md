@@ -53,8 +53,8 @@ qmake src/SmartDeblur.pro
 make
 ```
 
-## Runing
-```./SmartDebulr```
+## Running
+```./SmartDeblur```
 
 
 
